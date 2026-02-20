@@ -130,6 +130,10 @@ app.post("/api/posts/:postId/comments", (req, res) => {
   const { content, author_id } = req.body;
   const postId = req.params.postId;
 
+  if (!content || !author_id) {
+    return res.status(400).json({ error: "content and author_id are required" });
+  }
+
   const query = `INSERT INTO comments (post_id, content, author_id) VALUES (${postId}, '${content}', ${author_id})`;
 
   db.query(query, (err, results) => {
